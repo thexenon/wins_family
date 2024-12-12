@@ -17,11 +17,11 @@ block content
 
     .heading-box
       h1.heading-primary
-        span= `${scripture.title} scripture`
+        span= `${scripture.title}`
       .heading-box__group
         .heading-box__detail
           svg.heading-box__icon
-            use(xlink:href='/img/icons.svg#icon-map-pin')
+            use(xlink:href='/img/icons.svg')
           span.heading-box__text= scripture.summary
 
   section.section-description
@@ -30,13 +30,13 @@ block content
         .overview-box__group
           h2.heading-secondary.ma-bt-lg Quick facts
 
-          - const date = scripture.createdAt.toLocaleString('en-us', {month: 'long', year: 'numeric'})
+          - const date = scripture.createdAt.toLocaleString('en-us', {day: 'numeric', month: 'long', year: 'numeric'})
           +overviewBox('Posted on:', date, 'calendar')
           +overviewBox('Comments', `${scripture.comments.length}`, 'user')
           +overviewBox('Likes', `${scripture.reactionsTotal}`, 'star')
 
     .description-box
-      h2.heading-secondary.ma-bt-lg= `About ${scripture.title} scripture`
+      h2.heading-secondary.ma-bt-lg= `About ${scripture.title}`
       - const parapraphs = scripture.description.split('\n');
       each p in parapraphs
         p.description__text= p
