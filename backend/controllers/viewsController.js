@@ -1,69 +1,71 @@
-// TODO: WORK ON WEB VIEWS
+// TODO: WEB VIEW CONTROLLER
+const Scripture = require('../models/scriptureModel');
+const User = require('../models/userModel');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 
-// const Tour = require('../models/tourModel');
-// const User = require('../models/userModel');
-// const catchAsync = require('../utils/catchAsync');
-// const AppError = require('../utils/appError');
+exports.getOverview = catchAsync(async (req, res, next) => {
+  // 1) Get scripture data from collection
+  const scriptures = await Scripture.find().populate({
+    path: 'comments',
+    fields: 'comment user',
+  });
 
-// exports.getOverview = catchAsync(async (req, res, next) => {
-//   // 1) Get tour data from collection
-//   const tours = await Tour.find();
+  // 2) Build template
+  // 3) Render that template using scripture data from 1)
+  res.status(200).render('overview', {
+    title: 'All Scriptures',
+    scriptures,
+  });
+});
 
-//   // 2) Build template
-//   // 3) Render that template using tour data from 1)
-//   res.status(200).render('overview', {
-//     title: 'All Tours',
-//     tours
-//   });
-// });
+exports.getScripture = catchAsync(async (req, res, next) => {
+  // 1) Get the data, for the requested scripture (including comments and guides)
+  const scripture = await Scripture.findOne({ _id: req.params.id }).populate({
+    path: 'comments',
+    fields: 'comment user',
+  });
 
-// exports.getTour = catchAsync(async (req, res, next) => {
-//   // 1) Get the data, for the requested tour (including reviews and guides)
-//   const tour = await Tour.findOne({ slug: req.params.slug }).populate({
-//     path: 'reviews',
-//     fields: 'review rating user'
-//   });
+  if (!scripture) {
+    return next(new AppError('There is no scripture with that ID.', 404));
+  }
 
-//   if (!tour) {
-//     return next(new AppError('There is no tour with that name.', 404));
-//   }
+  // 2) Build template
+  // 3) Render template using data from 1)
+  res.status(200).render('scripture', {
+    title: `${scripture.title} Scripture`,
+    scripture,
+  });
+});
 
-//   // 2) Build template
-//   // 3) Render template using data from 1)
-//   res.status(200).render('tour', {
-//     title: `${tour.name} Tour`,
-//     tour
-//   });
-// });
+exports.getLoginForm = (req, res) => {
+  res.status(200).render('login', {
+    title: 'Log into your account',
+  });
+};
 
-// exports.getLoginForm = (req, res) => {
-//   res.status(200).render('login', {
-//     title: 'Log into your account'
-//   });
-// };
+exports.getAccount = (req, res) => {
+  res.status(200).render('account', {
+    title: 'Your account',
+  });
+};
 
-// exports.getAccount = (req, res) => {
-//   res.status(200).render('account', {
-//     title: 'Your account'
-//   });
-// };
+exports.updateUserData = catchAsync(async (req, res, next) => {
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      name: req.body.name,
+      email: req.body.email,
+      description: req.body.description,
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
-// exports.updateUserData = catchAsync(async (req, res, next) => {
-//   const updatedUser = await User.findByIdAndUpdate(
-//     req.user.id,
-//     {
-//       name: req.body.name,
-//       email: req.body.email,
-//       description: req.body.description
-//     },
-//     {
-//       new: true,
-//       runValidators: true
-//     }
-//   );
-
-//   res.status(200).render('account', {
-//     title: 'Your account',
-//     user: updatedUser
-//   });
-// });
+  res.status(200).render('account', {
+    title: 'Your account',
+    user: updatedUser,
+  });
+});

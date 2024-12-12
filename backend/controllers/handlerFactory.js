@@ -65,7 +65,7 @@ exports.getOne = (Model, popOptions) =>
     });
   });
 
-exports.getAll = (Model) =>
+exports.getAll = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     // To allow for nested GET reviews on scripture (hack)
     let filter = {};
@@ -77,7 +77,12 @@ exports.getAll = (Model) =>
       .limitFields()
       .pages();
     // const doc = await features.query.explain();
-    const doc = await features.query;
+    let doc;
+    if (popOptions) {
+      doc = await features.query.populate(popOptions);
+    } else {
+      doc = await features.query;
+    }
 
     // SEND RESPONSE
     res.status(200).json({

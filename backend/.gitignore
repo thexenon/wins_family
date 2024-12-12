@@ -1,6 +1,7 @@
 ## Directory-based project format:
 .vscode/
 .idea/
+.cache/
 
 #Exclude composer vendor folders
 vendor

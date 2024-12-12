@@ -40,7 +40,7 @@ if (process.env.NODE_ENV === 'development') {
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP, please try again in an hour!'
+  message: 'Too many requests from this IP, please try again in an hour!',
 });
 app.use('/api', limiter);
 
@@ -64,9 +64,9 @@ app.use(
       'ratingsAverage',
       'maxGroupSize',
       'difficulty',
-      'price'
-    ]
-  })
+      'price',
+    ],
+  }),
 );
 
 // Test middleware
@@ -77,8 +77,7 @@ app.use((req, res, next) => {
 
 app.use(compression());
 // 3) Routes
-// TODO: VIEWS ROUTER SETUP
-// app.use('/', viewRouter);
+app.use('/', viewRouter);
 app.use('/api/v1/comments', commentRouter);
 app.use('/api/v1/scriptures', scriptureRouter);
 app.use('/api/v1/users', userRouter);

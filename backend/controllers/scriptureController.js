@@ -89,7 +89,7 @@ exports.resizeScriptureImages = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteScripture = factory.deleteOne(Scripture);
-exports.getAllScriptures = factory.getAll(Scripture);
+exports.getAllScriptures = factory.getAll(Scripture, { path: 'comments' });
 exports.getSingleScripture = factory.getOne(Scripture, { path: 'comments' });
 exports.addNewScripture = factory.createOne(Scripture);
 exports.updateScripture = factory.updateOne(Scripture);

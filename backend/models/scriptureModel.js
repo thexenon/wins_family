@@ -21,6 +21,11 @@ const scriptureSchema = new mongoose.Schema(
         message: 'Type of file is either ||Picture|Video||',
       },
     },
+    summary: {
+      type: String,
+      trim: true,
+      required: [true, 'Summary must be set'],
+    },
     description: {
       type: String,
       trim: true,
@@ -55,6 +60,10 @@ scriptureSchema.virtual('reactionsTotal').get(function () {
   return this.reactions.length;
 });
 
+// scriptureSchema.virtual('commentsTotal').get(function () {
+//   return this.comments.length;
+// });
+
 // Document middleware before save(), create() but not insertMany()
 scriptureSchema.pre('save', function (next) {
   this.slug = slugify(this.title, { lower: true });
@@ -69,13 +78,13 @@ scriptureSchema.pre('save', function (next) {
 //   next();
 // });
 
-// scriptureSchema.pre(/^find/, function (next) {
-//   this.populate({
-//     path: 'reactions',
-//     select: '-__v -passwordChangedAt',
-//   });
-//   next();
-// });
+scriptureSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'reactions',
+    // select: '-__v -passwordChangedAt',
+  });
+  next();
+});
 
 // scriptureSchema.post(/^find/, function (doc, next) {
 //   this.find({ secretTour: { $ne: true } });
