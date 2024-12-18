@@ -50,6 +50,12 @@ exports.getAccount = (req, res) => {
   });
 };
 
+exports.getStream = (req, res) => {
+  res.status(200).render('stream', {
+    title: 'Live Streaming',
+  });
+};
+
 exports.updateUserData = catchAsync(async (req, res, next) => {
   const updatedUser = await User.findByIdAndUpdate(
     req.user.id,

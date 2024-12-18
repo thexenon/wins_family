@@ -18,6 +18,15 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       validate: [validator.isEmail, 'Provide a valid email...'],
     },
+    address: {
+      type: String,
+      required: [true, 'An address must be set'],
+    },
+    phone: {
+      type: Number,
+      required: [true, 'A phone number must be set'],
+      unique: true,
+    },
     password: {
       type: String,
       required: [true, 'Password must be set'],

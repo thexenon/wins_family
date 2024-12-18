@@ -13,6 +13,7 @@ router.get(
 );
 router.get('/login', authController.isLoggedIn, viewsController.getLoginForm);
 router.get('/me', authController.protect, viewsController.getAccount);
+router.get('/stream', viewsController.getStream);
 
 router.post(
   '/submit-user-data',
