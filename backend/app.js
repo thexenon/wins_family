@@ -21,6 +21,16 @@ const app = express();
 
 // Middlewares
 // 1) GLOBAL MIDDLEWARES
+// Allow Access
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept',
+  );
+  next();
+});
+
 // View engine
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -42,7 +52,7 @@ const limiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try again in an hour!',
 });
-app.use('/api', limiter);
+// app.use('/api', limiter);
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
@@ -85,5 +95,5 @@ app.all('*', (req, res, next) => {
   next(new AppError(`Error: ${req.originalUrl} is not on this server`, 404));
 });
 
-// app.use(myErrorHandler);
+app.use(myErrorHandler);
 module.exports = app;

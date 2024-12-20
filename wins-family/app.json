@@ -1,10 +1,40 @@
 {
   "expo": {
-    "scheme": "acme",
-    "plugins": [
-      "expo-router"
-    ],
+    "scheme": "wins",
+    "plugins": ["expo-router"],
     "name": "wins-family",
     "slug": "wins-family"
   }
 }
+
+// {
+//   "expo": {
+//     "name": "wins_family",
+//     "slug": "wins_family",
+//     "version": "1.0.0",
+//     "orientation": "portrait",
+//     "icon": "./assets/icon.png",
+//     "userInterfaceStyle": "light",
+//     "splash": {
+//       "image": "./assets/splash.png",
+//       "resizeMode": "contain",
+//       "backgroundColor": "#ffffff"
+//     },
+//     "scheme": "winsfamily",
+//     "assetBundlePatterns": ["**/*"],
+//     "ios": {
+//       "supportsTablet": true
+//     },
+//     "android": {
+//       "adaptiveIcon": {
+//         "foregroundImage": "./assets/adaptive-icon.png",
+//         "backgroundColor": "#ffffff"
+//       },
+//       "package": "com.thexenon.wins_family"
+//     },
+//     "web": {
+//       "favicon": "./assets/favicon.png"
+//     },
+//     "plugins": ["expo-router", "expo-font"]
+//   }
+// }
