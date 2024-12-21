@@ -15,7 +15,7 @@ import { COLORS, icons, images, SIZES, FONT } from "../../constants";
 import styles from "../../styles/globalStyles";
 // import { createUser } from "../../lib/appwrite";
 import { CustomButton, FormField } from "../../components";
-// import { useGlobalContext } from "../../context/GlobalProvider";
+import { user_signup } from "../../utils/user_api";
 
 const SignUp = () => {
   // const { setUser, setIsLogged } = useGlobalContext();
@@ -31,17 +31,35 @@ const SignUp = () => {
   });
 
   const submit = async () => {
-    if (form.username === "" || form.email === "" || form.password === "") {
+    if (form.name === "" || form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
     }
 
     setSubmitting(true);
-    try {
-      // const result = await createUser(form.email, form.password, form.username);
-      // setUser(result);
-      // setIsLogged(true);
 
-      router.replace("/home");
+    try {
+      user_signup({
+        email: form.email,
+        phone: form.phone,
+        address: form.address,
+        name: form.name,
+        password: form.password,
+        passwordConfirm: form.confirmpassword,
+      })
+        .then(async (result) => {
+          if (result.status == "200") {
+            await AsyncStorage.setItem("jwt", result?.data.token);
+            Alert.alert("Welcome", `${result?.data.data.user.name}`);
+            router.replace("/home");
+          } else if (result.status == "fail") {
+            Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
+          } else {
+            Alert.alert("Somethin went wrong. Please try again later");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
@@ -53,9 +71,10 @@ const SignUp = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.gray }}>
       <ScrollView>
         <View
-          style={{
-            minHeight: Dimensions.get("window").height - 100,
-          }}>
+        // style={{
+        //   minHeight: Dimensions.get("window").height - 100,
+        // }}
+        >
           <Image
             style={{
               height: 200,
@@ -69,86 +88,104 @@ const SignUp = () => {
 
           <Text style={styles.welcome}>Sign Up</Text>
 
-          <View style={styles.textContainer}>
-            <View style={styles.textWrapper}>
-              <TextInput
-                inputMode="text"
-                keyboardType="default"
-                style={styles.textInput}
-                value={form.name}
-                onChangeText={(e) => setForm({ ...form, name: e })}
-                placeholder="Fullname"
-              />
+          <View style={{ marginBottom: 10 }}>
+            <View style={styles.textContainer}>
+              <View style={styles.textWrapper}>
+                <TextInput
+                  inputMode="text"
+                  keyboardType="default"
+                  style={styles.textInput}
+                  value={form.name}
+                  onChangeText={(e) => setForm({ ...form, name: e })}
+                  placeholder="Fullname"
+                  placeholderTextColor={COLORS.black}
+                />
+              </View>
             </View>
           </View>
 
-          <View style={styles.textContainer}>
-            <View style={styles.textWrapper}>
-              <TextInput
-                inputMode="tel"
-                keyboardType="numeric"
-                style={styles.textInput}
-                value={form.phone}
-                onChangeText={(e) => setForm({ ...form, phone: e })}
-                placeholder="Mobile Number"
-              />
-            </View>
-          </View>
-          <View style={styles.textContainer}>
-            <View style={styles.textWrapper}>
-              <TextInput
-                inputMode="text"
-                keyboardType="default"
-                style={styles.textInput}
-                value={form.address}
-                onChangeText={(e) => setForm({ ...form, address: e })}
-                placeholder="Address"
-                multiline={true}
-              />
+          <View style={{ marginBottom: 10 }}>
+            <View style={styles.textContainer}>
+              <View style={styles.textWrapper}>
+                <TextInput
+                  inputMode="tel"
+                  keyboardType="numeric"
+                  style={styles.textInput}
+                  value={form.phone}
+                  onChangeText={(e) => setForm({ ...form, phone: e })}
+                  placeholder="Mobile Number"
+                  placeholderTextColor={COLORS.black}
+                />
+              </View>
             </View>
           </View>
 
-          <View style={styles.textContainer}>
-            <View style={styles.textWrapper}>
-              <TextInput
-                inputMode="email"
-                keyboardType="default"
-                style={styles.textInput}
-                value={form.email}
-                onChangeText={(e) => setForm({ ...form, email: e })}
-                placeholder="Email"
-              />
+          <View style={{ marginBottom: 10 }}>
+            <View style={styles.textContainer}>
+              <View style={styles.textWrapper}>
+                <TextInput
+                  inputMode="text"
+                  keyboardType="default"
+                  style={styles.textInput}
+                  value={form.address}
+                  onChangeText={(e) => setForm({ ...form, address: e })}
+                  placeholder="Address"
+                  placeholderTextColor={COLORS.black}
+                  multiline={true}
+                />
+              </View>
             </View>
           </View>
 
-          <View style={styles.textContainer}>
-            <View style={styles.textWrapper}>
-              <TextInput
-                inputMode="text"
-                keyboardType="default"
-                style={styles.textInput}
-                value={form.password}
-                onChangeText={(e) => setForm({ ...form, password: e })}
-                placeholder="Password"
-                secureTextEntry={true}
-              />
+          <View style={{ marginBottom: 10 }}>
+            <View style={styles.textContainer}>
+              <View style={styles.textWrapper}>
+                <TextInput
+                  inputMode="email"
+                  keyboardType="default"
+                  style={styles.textInput}
+                  value={form.email}
+                  onChangeText={(e) => setForm({ ...form, email: e })}
+                  placeholder="Email"
+                  placeholderTextColor={COLORS.black}
+                />
+              </View>
             </View>
           </View>
 
-          <View style={styles.textContainer}>
-            <View style={styles.textWrapper}>
-              <TextInput
-                inputMode="text"
-                keyboardType="default"
-                style={styles.textInput}
-                value={form.confirmpassword}
-                onChangeText={(e) => setForm({ ...form, confirmpassword: e })}
-                placeholder="Confirm Password"
-                secureTextEntry={true}
-              />
+          <View style={{ marginBottom: 10 }}>
+            <View style={styles.textContainer}>
+              <View style={styles.textWrapper}>
+                <TextInput
+                  inputMode="text"
+                  keyboardType="default"
+                  style={styles.textInput}
+                  value={form.password}
+                  onChangeText={(e) => setForm({ ...form, password: e })}
+                  placeholder="Password"
+                  placeholderTextColor={COLORS.black}
+                  secureTextEntry={true}
+                />
+              </View>
             </View>
           </View>
 
+          <View style={{ marginBottom: 10 }}>
+            <View style={styles.textContainer}>
+              <View style={styles.textWrapper}>
+                <TextInput
+                  inputMode="text"
+                  keyboardType="default"
+                  style={styles.textInput}
+                  value={form.confirmpassword}
+                  onChangeText={(e) => setForm({ ...form, confirmpassword: e })}
+                  placeholder="Confirm Password"
+                  placeholderTextColor={COLORS.black}
+                  secureTextEntry={true}
+                />
+              </View>
+            </View>
+          </View>
           <CustomButton
             color={"#213555"}
             text="Sign Up"

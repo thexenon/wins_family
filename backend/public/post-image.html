@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BIOSSA-KNUST official Video website">
+    <meta name="author" content="Derek Donkor">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" crossorigin="anonymous"> </script>
+    <title>Wins Family Scripture Upload Page</title>
+
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-storage.js"></script>
+</head>
+
+<body>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyA8t4M_P4NAMy0DgAbbps0LYM9B-XXaj9A",
+            authDomain: "meggar-stock.firebaseapp.com",
+            databaseURL: "https://meggar-stock-default-rtdb.firebaseio.com",
+            projectId: "meggar-stock",
+            storageBucket: "meggar-stock.appspot.com",
+            messagingSenderId: "73038267334",
+            appId: "1:73038267334:web:22b9af5288f796621868c7",
+            measurementId: "G-JEF808JP61"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth.Auth.Persistence.LOCAL;
+    </script>
+
+
+    <div class="jumbotron bg-dark" style="margin-top: 10px;">
+
+        <div class="container text-center">
+            <form action="" class="main-form" id="main-form">
+                <div class="form-group">
+                    <input required id="main-title" rows="4" placeholder="Scripture Title..." class="form-control">
+
+                    <div class="invalid-feedback">
+                        Write a Scripture Title.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input required id="main-summary" rows="4" placeholder="Scripture Summary..." class="form-control">
+
+                    <div class="invalid-feedback">
+                        Write a Scripture Summary.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input multiple required id="main-video" type="file" class="form-control">
+                    <div class="invalid-feedback">
+                        Please choose valid pictures.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <img id="selected-video" src="#" width="250" height="150" controls>
+                </div>
+                <div class="form-group">
+                    <textarea required id="main-desc" rows="4" placeholder="Scripture..."
+                        class="form-control"></textarea>
+                    <div class="invalid-feedback">
+                        Write a Description.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="progress bg-secondary">
+                        <div id="upload-progress" class="progress-bar bg-success" style="width: 0%;">0%</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button id="save-blog" type="button" class="btn btn-light bg-light text-dark"
+                        style="width: 150px; height: 60px;">Save & Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var validVideotypes = ["image/gif", "image/png", "image/jpg", "image/jpeg", "image/bmp"];
+        $("#selected-video").hide();
+
+        function previewImage(video_blog) {
+
+            if (video_blog.files && video_blog.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $("#selected-video").attr('src', e.target.result);
+                    $("#selected-video").fadeIn();
+                }
+                reader.readAsDataURL(video_blog.files[0]);
+            }
+        }
+
+        $("#main-video").change(function () {
+            previewImage(this);
+        });
+        $("#save-blog").click(function () {
+            $("#main-desc").removeClass("is-invalid");
+            $("#main-title").removeClass("is-invalid");
+            $("#main-summary").removeClass("is-invalid");
+            $("#main-video").removeClass("is-invalid");
+
+            var desc = $("#main-desc").val();
+            var title = $("#main-title").val();
+            var summary = $("#main-summary").val();
+
+            if (!title) {
+                $("#main-title").addClass("is-invalid");
+                return;
+            }
+            if (!summary) {
+                $("#main-summary").addClass("is-invalid");
+                return;
+            }
+            if (!desc) {
+                $("#main-desc").addClass("is-invalid");
+                return;
+            }
+            var picture = $("#main-video").prop("files")[0];
+            if (picture == null) {
+                $("#main-video").addClass("is-invalid");
+                return;
+            }
+            if ($.inArray(picture["type"], validVideotypes) < 0) {
+                $("#main-video").addClass("is-invalid");
+                return;
+            }
+
+
+
+            var dateStr = new Date().getTime();
+            var numberStr = 10000000000000 - dateStr
+            var databaseRef = firebase.database().ref().child("Video Tutorials");
+            databaseRef.once("value").then(function () {
+                var fileCompleteName = "0" + numberStr;
+                var storageRef = firebase.storage().ref("Scripture Videos");
+                var blogStorageRef = storageRef.child(fileCompleteName);
+                var uploadTask = blogStorageRef.put(picture);
+                uploadTask.on("state_changed",
+                    function progress(snapshot) {
+                        var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        $("#upload-progress").html(Math.round(percentage) + "%");
+                        $("#upload-progress").attr("style", "width: " + percentage + "%");
+
+                        uploadTask.snapshot.ref.getDownloadURL().then(function (downloadUrl) {
+                            var time = new Date();
+                            var dateStr = new Date().getTime();
+                            var option = {
+                                weekday: "long",
+                                month: "long",
+                                day: "2-digit",
+                                year: "numeric",
+                            };
+                            var blogData = {
+                                "description": desc,
+                                "fileSRC": downloadUrl[0],
+                                "images": [downloadUrl[1], downloadUrl[2], downloadUrl[3]],
+                                "title": title,
+                                "summary": summary,
+                                "typeSRC": "Picture",
+                                "time": time.toLocaleString('en-US', {
+                                    hours: 'numeric',
+                                    minutes: 'numeric',
+                                    seconds: 'numeric',
+                                    hours12: true
+                                }),
+                                "date": time.toLocaleDateString('en-US', option),
+                                "count": 100000000000000 - dateStr,
+                            };
+
+                            axios({
+                                method: "post",
+                                url: "/api/v1/scriptures",
+                                data: blogData,
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            }).then(() => {
+                                $("#result").attr("class", "alert alert-success");
+                                $("#result").html("Video has been uploaded successfully...!");
+
+                                $("#main-form")[0].reset();
+                                $("#selected-video").fadeOut();
+                                $("#upload-progress").html("Completed...!");
+
+                                window.location.assign("/me");
+                            }).catch((err) => {
+                                $("#result").attr("class", "alert alert-danger");
+                                $("#result").html("An error occuried in the upload of your post...!");
+                            })
+                        });
+                    });
+            },
+            );
+        });
+
+    </script>
+
+
+</body>
+
+</html>

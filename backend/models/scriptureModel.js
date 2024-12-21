@@ -81,7 +81,7 @@ scriptureSchema.pre('save', function (next) {
 scriptureSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'reactions',
-    // select: '-__v -passwordChangedAt',
+    select: 'name',
   });
   next();
 });

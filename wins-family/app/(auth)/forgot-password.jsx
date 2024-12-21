@@ -55,7 +55,7 @@ const SignIn = () => {
           headerShadowVisible: false,
           headerLeft: () => (
             <ScreenHeaderBtn
-              iconUrl={icons.leftArrow}
+              iconUrl={icons.left}
               handlePress={() => router.back()}
               dimension="50%"
             />
@@ -64,10 +64,7 @@ const SignIn = () => {
         }}
       />
       <ScrollView>
-        <View
-          style={{
-            minHeight: Dimensions.get("window").height - 100,
-          }}>
+        <View>
           <Image
             style={{
               height: 200,
@@ -90,6 +87,7 @@ const SignIn = () => {
                 value={form.email}
                 onChangeText={(e) => setForm({ ...form, email: e })}
                 placeholder="Email"
+                placeholderTextColor={COLORS.black}
               />
             </View>
           </View>

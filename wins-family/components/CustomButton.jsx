@@ -9,8 +9,10 @@ const CustomButton = ({ text, handlePress, color, isLoading }) => {
       disabled={isLoading}>
       <View style={styles.btnContainer}>
         <Text style={styles.btnText}>{text}</Text>
-        {isLoading && (
+        {isLoading ? (
           <ActivityIndicator animating={isLoading} color="#fff" size="small" />
+        ) : (
+          <Text></Text>
         )}
       </View>
     </TouchableOpacity>

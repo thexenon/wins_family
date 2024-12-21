@@ -10,15 +10,13 @@ import {
   Image,
   TextInput,
 } from "react-native";
-
+import { user_login } from "../../utils/user_api";
 import { COLORS, icons, images, SIZES, FONT } from "../../constants";
-import { CustomButton, FormField } from "../../components";
+import { CustomButton } from "../../components";
 import styles from "../../styles/globalStyles";
-// import { getCurrentUser, signIn } from "../../lib/appwrite";
-// import { useGlobalContext } from "../../context/GlobalProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignIn = () => {
-  // const { setUser, setIsLogged } = useGlobalContext();
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     email: "",
@@ -26,20 +24,28 @@ const SignIn = () => {
   });
 
   const submit = async () => {
-    if (form.email === "" || form.password === "") {
+    if (form.email == "" || form.password == "") {
       Alert.alert("Error", "Please fill in all fields");
     }
 
     setSubmitting(true);
 
     try {
-      // await signIn(form.email, form.password);
-      // const result = await getCurrentUser();
-      // setUser(result);
-      // setIsLogged(true);
-
-      Alert.alert("Success", "User signed in successfully");
-      router.replace("/home");
+      user_login({ email: form.email, password: form.password })
+        .then(async (result) => {
+          if (result.status == "200") {
+            await AsyncStorage.setItem("jwt", result?.data.token);
+            Alert.alert("Welcome", `${result?.data.data.user.name}`);
+            router.replace("/home");
+          } else if (result.status == "fail") {
+            Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
+          } else {
+            Alert.alert("Somethin went wrong. Please try again later");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
@@ -50,10 +56,7 @@ const SignIn = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.gray }}>
       <ScrollView>
-        <View
-          style={{
-            minHeight: Dimensions.get("window").height - 100,
-          }}>
+        <View>
           <Image
             style={{
               height: 200,
@@ -66,17 +69,21 @@ const SignIn = () => {
           />
 
           <Text style={styles.welcome}>Sign In</Text>
-
-          <View style={styles.textContainer}>
-            <View style={styles.textWrapper}>
-              <TextInput
-                inputMode="email"
-                keyboardType="default"
-                style={styles.textInput}
-                value={form.email}
-                onChangeText={(e) => setForm({ ...form, email: e })}
-                placeholder="Email"
-              />
+          <View style={{ marginBottom: 10 }}>
+            <View style={styles.textContainer}>
+              <View style={styles.textWrapper}>
+                <TextInput
+                  inputMode="email"
+                  keyboardType="default"
+                  style={styles.textInput}
+                  value={form.email}
+                  onChangeText={(e) =>
+                    setForm({ ...form, email: e.toLowerCase() })
+                  }
+                  placeholder="Email"
+                  placeholderTextColor={COLORS.black}
+                />
+              </View>
             </View>
           </View>
 
@@ -89,6 +96,7 @@ const SignIn = () => {
                 value={form.password}
                 onChangeText={(e) => setForm({ ...form, password: e })}
                 placeholder="Password"
+                placeholderTextColor={COLORS.black}
                 secureTextEntry={true}
               />
             </View>

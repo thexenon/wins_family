@@ -70,21 +70,6 @@ const TabLayout = () => {
             ),
           }}
         />
-        <Tabs.Screen
-          name="video"
-          options={{
-            title: "Video",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.play}
-                color={color}
-                name="Video"
-                focused={focused}
-              />
-            ),
-          }}
-        />
 
         <Tabs.Screen
           name="stream"
@@ -93,7 +78,7 @@ const TabLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.plus}
+                icon={icons.play}
                 color={color}
                 name="Stream"
                 focused={focused}

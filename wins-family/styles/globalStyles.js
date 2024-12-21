@@ -7,6 +7,12 @@ const styles = StyleSheet.create({
   spaceDown: {
     marginBottom: 50,
   },
+  safeSpace: {
+    flex: 1,
+    flexDirection: "column",
+    marginVertical: 10,
+    paddingVertical: 10,
+  },
   // Welcome
   welcome: {
     alignSelf: "center",
@@ -71,17 +77,19 @@ const styles = StyleSheet.create({
 
   // Text Inputs
   textContainer: {
-    // justifyContent: "center",
-    // alignItems: "center",
-    // alignSelf: "center",
-    // textAlign: "center",
+    // flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    textAlign: "center",
+    marginBottom: 10,
     // marginTop: SIZES.large,
     // width: "90%",
     // // height: 20,
   },
   textWrapper: {
     backgroundColor: COLORS.white,
-    margin: SIZES.small,
+    // margin: SIZES.small,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: SIZES.medium,
@@ -95,6 +103,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
+    color: COLORS.black,
     paddingHorizontal: SIZES.medium,
   },
 
@@ -133,11 +142,12 @@ const styles = StyleSheet.create({
 
   searchwelcomeMessage: {
     fontFamily: FONT.bold,
-    fontSize: SIZES.xLarge,
+    fontSize: SIZES.large,
     color: COLORS.primary,
-    marginTop: 2,
+    marginTop: 20,
     alignSelf: "center",
-    marginVertical: 10,
+    textAlign: "center",
+    // marginVertical: 10,
   },
   searchsearchContainer: {
     justifyContent: "center",
@@ -160,6 +170,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     paddingHorizontal: SIZES.medium,
+    color: COLORS.black,
   },
   searchsearchBtn: {
     width: 50,
@@ -170,6 +181,58 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   searchsearchBtnImage: {
+    width: "50%",
+    height: "50%",
+    tintColor: COLORS.white,
+  },
+  // Home Send Comments
+  commentcontainer: {
+    width: "100%",
+    backgroundColor: COLORS.gray,
+    paddingTop: 15,
+    paddingBottom: 25,
+  },
+
+  commentContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: SIZES.large,
+    height: 50,
+  },
+  commentWrapper: {
+    flex: 1,
+    backgroundColor: COLORS.white,
+    marginRight: SIZES.small,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: SIZES.medium,
+    height: "100%",
+  },
+  commentInput: {
+    fontFamily: FONT.regular,
+    width: "100%",
+    height: "100%",
+    paddingHorizontal: SIZES.medium,
+    color: COLORS.black,
+  },
+  commentBtnLike: {
+    width: 50,
+    height: "100%",
+    backgroundColor: "#aa9999",
+    borderRadius: SIZES.medium,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  commentBtnUpload: {
+    width: 50,
+    height: "100%",
+    // backgroundColor: COLORS.tertiary
+    borderRadius: SIZES.medium,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  commentBtnImage: {
     width: "50%",
     height: "50%",
     tintColor: COLORS.white,
@@ -195,23 +258,112 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logoImage: {
-    width: "70%",
-    height: "70%",
+    width: "100%",
+    height: "100%",
   },
   textContainer: {
     flex: 1,
     marginHorizontal: SIZES.medium,
   },
-  jobName: {
+  scriptureName: {
     fontSize: SIZES.medium,
     fontFamily: "DMBold",
     color: COLORS.primary,
   },
-  jobType: {
+  scriptureSummary: {
     fontSize: SIZES.small + 2,
     fontFamily: "DMRegular",
     color: COLORS.gray,
     marginTop: 3,
+    textTransform: "capitalize",
+  },
+  descscriptureSummary: {
+    fontSize: SIZES.xLarge,
+    fontFamily: "DMBold",
+    color: COLORS.primary,
+    textAlign: "center",
+  },
+  descscriptureDesc: {
+    fontSize: SIZES.large,
+    textAlign: "left",
+  },
+  scriptureComment: {
+    fontSize: SIZES.small + 2,
+    fontFamily: "DMRegular",
+    color: "#fff574",
+    marginTop: 3,
+    textTransform: "capitalize",
+  },
+  scriptureLike: {
+    fontSize: SIZES.small + 2,
+    fontFamily: "DMRegular",
+    color: "#fb4141",
+    marginTop: 3,
+    textTransform: "capitalize",
+  },
+
+  //Tabs
+  tabcontainer: {
+    // marginTop: SIZES.small,
+    // marginBottom: SIZES.small / 2,
+  },
+  tabbtn: (name, activeTab) => ({
+    paddingVertical: SIZES.medium,
+    paddingHorizontal: SIZES.xLarge,
+    backgroundColor: name === activeTab ? COLORS.primary : "#F3F4F8",
+    borderRadius: SIZES.medium,
+    marginLeft: 2,
+    ...SHADOWS.medium,
+    shadowColor: COLORS.white,
+  }),
+  tabbtnText: (name, activeTab) => ({
+    fontFamily: "DMMedium",
+    fontSize: SIZES.small,
+    color: name === activeTab ? "#C3BFCC" : "#AAA9B8",
+  }),
+  commentName: {
+    fontSize: SIZES.medium,
+    fontFamily: "DMBold",
+    color: COLORS.primary,
+  },
+  commentComment: {
+    fontSize: SIZES.medium,
+    fontFamily: "DMRegular",
+    color: COLORS.black,
+    marginTop: 3,
+  },
+  commentImageContainer: {
+    width: 90,
+    height: 110,
+    backgroundColor: COLORS.white,
+    borderRadius: SIZES.medium,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  commentImage: {
+    width: "100%",
+    height: "100%",
+  },
+
+  userName: {
+    fontSize: SIZES.large,
+    fontFamily: "DMBold",
+    color: COLORS.primary,
+  },
+  userImage: {
+    marginTop: 25,
+    marginBottom: 10,
+    height: 150,
+    width: 150,
+    alignSelf: "center",
+    borderRadius: 100,
+  },
+  userBody: {
+    fontSize: SIZES.medium + 2,
+    fontFamily: "DMRegular",
+    color: COLORS.gray,
+    marginTop: 3,
+    marginBottom: 10,
     textTransform: "capitalize",
   },
 });

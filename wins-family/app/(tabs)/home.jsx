@@ -1,4 +1,5 @@
 import { useCallback, useState, useEffect } from "react";
+import React from "react";
 
 import axios from "axios";
 import { useRouter } from "expo-router";
@@ -10,12 +11,15 @@ import {
   FlatList,
   RefreshControl,
   ScrollView,
+  Alert,
   Image,
   TextInput,
   SafeAreaView,
 } from "react-native";
 import { COLORS, SIZES, icons } from "../../constants";
 import styles from "../../styles/globalStyles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { isUserLoggedIn } from "../../utils/userLogger";
 
 // const link = "http://127.0.0.1:3000";
 const link = "https://wins-family.onrender.com";
@@ -42,7 +46,7 @@ const Home = () => {
       setStatus(response.data.status);
     } catch (error) {
       setError(error);
-      alert("Something went wrong. Try again");
+      Alert.alert("Something went wrong.", `${error.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -57,13 +61,24 @@ const Home = () => {
     fetchData();
   };
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    refetch();
+    setRefreshing(false);
+  }, []);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredData = data.filter((item) =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View>
         <View style={styles.searchcontainer}>
           <View>
             <Text style={styles.searchwelcomeMessage}>
-              Welcome to Wins Family
+              Welcome to Wins Family Chapel International
             </Text>
           </View>
           <View style={styles.searchsearchContainer}>
@@ -71,22 +86,27 @@ const Home = () => {
               <TextInput
                 style={styles.searchsearchInput}
                 placeholder="Search Scriptures"
+                placeholderTextColor={COLORS.black}
+                value={searchQuery}
+                onChangeText={(text) => setSearchQuery(text)}
               />
             </View>
-            <TouchableOpacity style={styles.searchsearchBtn}>
-              <Image
-                source={icons.search}
-                resizeMode="contain"
-                style={styles.searchsearchBtnImage}
-              />
-            </TouchableOpacity>
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.homecontainer}>
             <View style={styles.homeheader}>
               <Text style={styles.homeheaderTitle}>All Scriptures</Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  onRefresh();
+                }}>
+                <Text style={styles.homeheaderBtn}>Refresh</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setSearchQuery("");
+                }}>
                 <Text style={styles.homeheaderBtn}>Show All</Text>
               </TouchableOpacity>
             </View>
@@ -100,7 +120,7 @@ const Home = () => {
                 <Text>No Data!!!</Text>
               ) : (
                 <FlatList
-                  data={data}
+                  data={filteredData}
                   renderItem={({ item }) => (
                     <ScriptureCard
                       handleNavigate={() => {
@@ -123,25 +143,33 @@ const Home = () => {
   );
 };
 
-const ScriptureCard = ({ scripture, handleNavigate }) => {
+const ScriptureCard = React.memo(({ scripture, handleNavigate }) => {
   return (
     <TouchableOpacity style={styles.container} onPress={() => handleNavigate()}>
-      <TouchableOpacity style={styles.logoContainer}>
+      <TouchableOpacity
+        style={styles.logoContainer}
+        onPress={() => handleNavigate()}>
         <Image
-          source={{ uri: scripture?.fileSRC }}
-          resizeMode="contain"
+          source={{ uri: `${link}/img/scriptures/${scripture?.fileSRC}` }}
+          resizeMode="cover"
           style={styles.logoImage}
         />
       </TouchableOpacity>
 
       <View style={styles.textContainer}>
-        <Text style={styles.jobName} numberOfLines={1}>
+        <Text style={styles.scriptureName} numberOfLines={1}>
           {scripture?.title}
         </Text>
-        <Text style={styles.jobType}>{scripture?.summary}</Text>
+        <Text style={styles.scriptureSummary}>{scripture?.summary}</Text>
+        <Text style={styles.scriptureComment}>
+          Comments: {scripture.comments.length}
+        </Text>
+        <Text style={styles.scriptureLike}>
+          Likes: {scripture.reactionsTotal}
+        </Text>
       </View>
     </TouchableOpacity>
   );
-};
+});
 
 export default Home;

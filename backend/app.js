@@ -91,6 +91,12 @@ app.use('/', viewRouter);
 app.use('/api/v1/comments', commentRouter);
 app.use('/api/v1/scriptures', scriptureRouter);
 app.use('/api/v1/users', userRouter);
+app.get('/post-video', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/post-video.html'));
+});
+app.get('/post-image', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/post-image.html'));
+});
 app.all('*', (req, res, next) => {
   next(new AppError(`Error: ${req.originalUrl} is not on this server`, 404));
 });

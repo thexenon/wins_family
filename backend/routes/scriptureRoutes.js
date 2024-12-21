@@ -14,8 +14,6 @@ router
     authController.protect,
     authController.restrictTo('admin', 'head'),
     scriptureController.addNewScripture,
-    scriptureController.uploadScriptureImages,
-    scriptureController.resizeScriptureImages,
   );
 
 router
@@ -24,8 +22,6 @@ router
   .patch(
     authController.protect,
     authController.restrictTo('admin', 'head'),
-    scriptureController.uploadScriptureImages,
-    scriptureController.resizeScriptureImages,
     scriptureController.updateScripture,
   )
   .delete(
