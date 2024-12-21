@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="BIOSSA-KNUST official Video website">
     <meta name="author" content="Derek Donkor">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" crossorigin="anonymous"> </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"
+        crossorigin="anonymous"> </script>
     <title>Wins Family Scripture Upload Page</title>
 
-    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-storage.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/7.18.0/firebase-firestore.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/7.18.0/firebase-database.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/7.18.0/firebase-storage.js"></script>
 </head>
 
 <body>
-    <script>
+    <script type="text/javascript">
         // Your web app's Firebase configuration
         var firebaseConfig = {
             apiKey: "AIzaSyA8t4M_P4NAMy0DgAbbps0LYM9B-XXaj9A",
@@ -88,7 +92,7 @@
         </div>
     </div>
 
-    <script>
+    <script type="text/javascript">
         var validVideotypes = ["image/gif", "image/png", "image/jpg", "image/jpeg", "image/bmp"];
         $("#selected-video").hide();
 

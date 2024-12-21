@@ -11,10 +11,9 @@ import {
   TouchableOpacity,
   RefreshControl,
   Image,
-  TextInput,
 } from "react-native";
 import axios from "axios";
-import { Stack, useRouter } from "expo-router";
+import { Link, Stack, useRouter } from "expo-router";
 import { useGlobalSearchParams } from "expo-router/build/hooks";
 import { useCallback, useState, useEffect } from "react";
 
@@ -97,12 +96,10 @@ const Profile = () => {
             </View>
             <CustomButton
               handlePress={async () => {
-                await AsyncStorage.removeItem("jwt").then(() => {
-                  router.replace("auth");
-                });
+                <Link href={`${link}/me`}></Link>;
               }}
               color={COLORS.secondary}
-              text={"Edit Details"}
+              text={"Edit Details or Change Password"}
             />
             <CustomButton
               handlePress={async () => {
