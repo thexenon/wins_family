@@ -87,10 +87,8 @@ const Profile = () => {
                 )}
               </View>
 
-              <Link
-                href={`${link}/me`}
-                style={styles.styles.btnBtn(COLORS.secondary)}>
-                <Text style={styles.btnText}>
+              <Link href={`${link}/me`} style={styles.btnBtnLink}>
+                <Text style={styles.btnLinkText}>
                   Edit Details or Change Password
                 </Text>
               </Link>

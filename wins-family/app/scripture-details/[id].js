@@ -144,7 +144,7 @@ const ScriptureDetails = () => {
     const myUID = await AsyncStorage.getItem("userUID");
 
     try {
-      await submitReactionLike({ reactions: myUID }, params.id)
+      await submitReactionLike({ reaction: myUID }, params.id)
         .then((result) => {
           console.log(result);
 

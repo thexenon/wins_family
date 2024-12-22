@@ -41,7 +41,6 @@ app.use((req, res, next) => {
 
 // Set CSP header
 app.use((req, res, next) => {
-  console.log('Generated nonce:', nonce);
   res.setHeader(
     'Content-Security-Policy',
     `script-src 'self' https://code.jquery.com/jquery-3.2.1.min.js https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js https://www.gstatic.com/firebasejs/7.18.0/firebase-firestore.js https://www.gstatic.com/firebasejs/7.18.0/firebase-database.js https://www.gstatic.com/firebasejs/7.18.0/firebase-storage.js 'nonce-${nonce}'`,

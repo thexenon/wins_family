@@ -371,6 +371,21 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textTransform: "capitalize",
   },
+  btnBtnLink: {
+    // height: 40,
+    backgroundColor: COLORS.primary,
+    alignSelf: "center",
+    borderRadius: 30,
+    width: "80%",
+    paddingVertical: 20,
+  },
+  btnLinkText: {
+    color: "#ffffff",
+    textAlign: "center",
+    fontSize: SIZES.medium,
+    fontFamily: FONT.bold,
+    paddingVertical: 20,
+  },
 });
 
 export default styles;

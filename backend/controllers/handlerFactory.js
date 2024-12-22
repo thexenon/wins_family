@@ -40,7 +40,7 @@ exports.updateArray = (Model) =>
     const doc = await Model.findByIdAndUpdate(
       req.params.id,
       {
-        $push: { reactions: req.body },
+        $push: { reactions: req.body.reaction },
       },
       {
         new: true,
