@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.use('/:scriptureId/comments', commentRouter);
 router
-  .route('/:scriptureId/reaction/:userID')
-  .patch(authController.protect, scriptureController.updateScripture);
+  .route('/:scriptureId/reactions')
+  .patch(authController.protect, scriptureController.updateScriptureReaction);
 router
   .route('/')
   .get(scriptureController.getAllScriptures)

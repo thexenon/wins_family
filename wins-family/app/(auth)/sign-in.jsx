@@ -35,6 +35,7 @@ const SignIn = () => {
         .then(async (result) => {
           if (result.status == "200") {
             await AsyncStorage.setItem("jwt", result?.data.token);
+            await AsyncStorage.setItem("userUID", result?.data.data.user.id);
             Alert.alert("Welcome", `${result?.data.data.user.name}`);
             router.replace("/home");
           } else if (result.status == "fail") {

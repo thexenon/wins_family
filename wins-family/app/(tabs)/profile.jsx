@@ -72,7 +72,7 @@ const Profile = () => {
           ) : error ? (
             <ErrorView msg={"Something went wrong. Please try again"} />
           ) : data.length === 0 || data == null ? (
-            <Text>No Data!!!</Text>
+            <ErrorView msg={"No Data!!!"} />
           ) : (
             <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
               <View style={styles.homecardsContainer}>
@@ -81,20 +81,22 @@ const Profile = () => {
                 ) : error ? (
                   <ErrorView msg={"Something went wrong. Please try again"} />
                 ) : data.length === 0 || data == null ? (
-                  <Text>No Data!!!</Text>
+                  <ErrorView msg={"No Data!!!"} />
                 ) : (
                   <UserProfile currentuser={data} />
                 )}
               </View>
+
+              <Link
+                href={`${link}/me`}
+                style={styles.styles.btnBtn(COLORS.secondary)}>
+                <Text style={styles.btnText}>
+                  Edit Details or Change Password
+                </Text>
+              </Link>
               <CustomButton
                 handlePress={async () => {
-                  <Link href={`${link}/me`}></Link>;
-                }}
-                color={COLORS.secondary}
-                text={"Edit Details or Change Password"}
-              />
-              <CustomButton
-                handlePress={async () => {
+                  await AsyncStorage.removeItem("userUID");
                   await AsyncStorage.removeItem("jwt").then(() => {
                     router.replace("auth");
                   });

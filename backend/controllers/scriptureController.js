@@ -93,6 +93,7 @@ exports.getAllScriptures = factory.getAll(Scripture, { path: 'comments' });
 exports.getSingleScripture = factory.getOne(Scripture, { path: 'comments' });
 exports.addNewScripture = factory.createOne(Scripture);
 exports.updateScripture = factory.updateOne(Scripture);
+exports.updateScriptureReaction = factory.updateArray(Scripture);
 
 // exports.getScriptureStats = catchAsync(async (req, res, next) => {
 //   const stats = await Scripture.aggregate([

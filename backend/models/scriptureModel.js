@@ -56,9 +56,9 @@ scriptureSchema.virtual('comments', {
   localField: '_id',
 });
 
-scriptureSchema.virtual('reactionsTotal').get(function () {
-  return this.reactions.length;
-});
+// scriptureSchema.virtual('reactionsTotal').get(function () {
+//   return this.reactions.length;
+// });
 
 // scriptureSchema.virtual('commentsTotal').get(function () {
 //   return this.comments.length;
@@ -82,6 +82,10 @@ scriptureSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'reactions',
     select: 'name',
+  });
+
+  scriptureSchema.virtual('reactionsTotal').get(function () {
+    return this.reactions.length;
   });
   next();
 });

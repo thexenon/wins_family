@@ -15,11 +15,11 @@ import axios from "axios";
 import { Stack, useRouter } from "expo-router";
 import { useGlobalSearchParams } from "expo-router/build/hooks";
 import { useCallback, useState, useEffect } from "react";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScreenHeaderBtn, ErrorView } from "../../components";
 import { COLORS, icons, SIZES } from "../../constants";
 import styles from "../../styles/globalStyles";
-import { submitComment } from "../../utils/user_api";
+import { submitComment, submitReactionLike } from "../../utils/user_api";
 
 const tabs = ["Scripture", "Comments", "Likes"];
 // const link = "http://127.0.0.1:3000";
@@ -122,10 +122,34 @@ const ScriptureDetails = () => {
     try {
       await submitComment({ comment: commentText.comment }, params.id)
         .then((result) => {
-          console.log(result);
-
           if (result.status == "201") {
             Alert.alert("Success", "Comment Submitted");
+          } else if (result.status == "fail") {
+            Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
+          } else {
+            Alert.alert("Somethin went wrong. Please try again later");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const submitMyReactionLike = async () => {
+    const myUID = await AsyncStorage.getItem("userUID");
+
+    try {
+      await submitReactionLike({ reactions: myUID }, params.id)
+        .then((result) => {
+          console.log(result);
+
+          if (result.status == "200") {
+            Alert.alert("Success", "Reaction Submitted");
           } else if (result.status == "fail") {
             Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
           } else {
@@ -204,7 +228,9 @@ const ScriptureDetails = () => {
                         style={styles.commentBtnImage}
                       />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.commentBtnLike}>
+                    <TouchableOpacity
+                      style={styles.commentBtnLike}
+                      onPress={submitMyReactionLike}>
                       <Image
                         source={icons.heartOutline}
                         resizeMode="contain"
