@@ -27,7 +27,7 @@
 </head>
 
 <body>
-    <script type="text/javascript">
+    <script type="text/javascript" nonce="${res.locals.nonce}">
         // Your web app's Firebase configuration
         var firebaseConfig = {
             apiKey: "AIzaSyA8t4M_P4NAMy0DgAbbps0LYM9B-XXaj9A",
@@ -92,7 +92,7 @@
         </div>
     </div>
 
-    <script type="text/javascript">
+    <script type="text/javascript" nonce="${res.locals.nonce}">
         var validVideotypes = ["image/gif", "image/png", "image/jpg", "image/jpeg", "image/bmp"];
         $("#selected-video").hide();
 

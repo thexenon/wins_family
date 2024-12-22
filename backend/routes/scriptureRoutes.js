@@ -6,7 +6,9 @@ const commentRouter = require('./commentRoutes');
 const router = express.Router();
 
 router.use('/:scriptureId/comments', commentRouter);
-
+router
+  .route('/:scriptureId/reaction/:userID')
+  .patch(authController.protect, scriptureController.updateScripture);
 router
   .route('/')
   .get(scriptureController.getAllScriptures)
@@ -19,14 +21,10 @@ router
 router
   .route('/:id')
   .get(scriptureController.getSingleScripture)
-  .patch(
-    authController.protect,
-    authController.restrictTo('admin', 'head'),
-    scriptureController.updateScripture,
-  )
+  .patch(authController.protect, scriptureController.updateScripture)
   .delete(
     authController.protect,
-    authController.restrictTo('head'),
+    authController.restrictTo('head', 'admin'),
     scriptureController.deleteScripture,
   );
 

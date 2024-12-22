@@ -11,7 +11,6 @@ router
   .get(commentController.getAllComments)
   .post(
     authController.protect,
-    authController.restrictTo('member'),
     commentController.setScriptureUserIds,
     commentController.createComment,
   );

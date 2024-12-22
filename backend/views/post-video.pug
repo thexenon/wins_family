@@ -1,0 +1,164 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(http-equiv='Content-Security-Policy' content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;")
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(name='description' content='BIOSSA-KNUST official Video website')
+  meta(name='author' content='Derek Donkor')
+  script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js')
+  link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous')
+  script(type='text/javascript' src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymous')
+  title Wins Family Video Upload Page
+  // <title>Wins Family Video Upload Page</title>
+script(type='text/javascript' nonce=`${resnonce}` ).
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+  apiKey: "AIzaSyA8t4M_P4NAMy0DgAbbps0LYM9B-XXaj9A",
+  authDomain: "meggar-stock.firebaseapp.com",
+  databaseURL: "https://meggar-stock-default-rtdb.firebaseio.com",
+  projectId: "meggar-stock",
+  storageBucket: "meggar-stock.appspot.com",
+  messagingSenderId: "73038267334",
+  appId: "1:73038267334:web:22b9af5288f796621868c7",
+  measurementId: "G-JEF808JP61"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.auth.Auth.Persistence.LOCAL;
+.jumbotron.bg-dark(style='margin-top: 10px;')
+  .container.text-center
+    form#main-form.main-form(action='')
+      .form-group
+        input#main-title.form-control(required='' rows='4' placeholder='Scripture Title...')
+        .invalid-feedback
+          | Write a Scripture Title.
+      .form-group
+        input#main-summary.form-control(required='' rows='4' placeholder='Scripture Summary...')
+        .invalid-feedback
+          | Write a Scripture Summary.
+      .form-group
+        input#main-video.form-control(required='' type='file')
+        .invalid-feedback
+          | Please choose a valid video.
+      .form-group
+        video#selected-video(src='#' width='250' height='150' controls='')
+      .form-group
+        textarea#main-desc.form-control(required='' rows='4' placeholder='Video Description...')
+        .invalid-feedback
+          | Write a Video Description.
+      .form-group
+        .progress.bg-secondary
+          #upload-progress.progress-bar.bg-success(style='width: 0%;') 0%
+      .form-group
+        button#save-blog.btn.btn-light.bg-light.text-dark(type='button' style='width: 150px; height: 60px;') Save &amp; Post
+script(type='text/javascript' nonce=`${resnonce}`).
+  var validVideotypes = ["video/mp4", "video/avi", "video/mkv", "video/MPEG", "video/MPEG-4"];
+  $("#selected-video").hide();
+  function previewImage(video_blog) {
+  if (video_blog.files && video_blog.files[0]) {
+  var reader = new FileReader();
+  reader.onload = function (e) {
+  $("#selected-video").attr('src', e.target.result);
+  $("#selected-video").fadeIn();
+  }
+  reader.readAsDataURL(video_blog.files[0]);
+  }
+  }
+  $("#main-video").change(function () {
+  previewImage(this);
+  });
+  $("#save-blog").click(function () {
+  $("#main-desc").removeClass("is-invalid");
+  $("#main-title").removeClass("is-invalid");
+  $("#main-summary").removeClass("is-invalid");
+  $("#main-video").removeClass("is-invalid");
+  var desc = $("#main-desc").val();
+  var title = $("#main-title").val();
+  var summary = $("#main-summary").val();
+  if (!title) {
+  $("#main-title").addClass("is-invalid");
+  return;
+  }
+  if (!summary) {
+  $("#main-summary").addClass("is-invalid");
+  return;
+  }
+  if (!desc) {
+  $("#main-desc").addClass("is-invalid");
+  return;
+  }
+  var picture = $("#main-video").prop("files")[0];
+  if (picture == null) {
+  $("#main-video").addClass("is-invalid");
+  return;
+  }
+  if ($.inArray(picture["type"], validVideotypes) < 0) {
+  $("#main-video").addClass("is-invalid");
+  return;
+  }
+  var dateStr = new Date().getTime();
+  var numberStr = 10000000000000 - dateStr
+  var databaseRef = firebase.database().ref().child("Video Tutorials");
+  databaseRef.once("value").then(function () {
+  var fileCompleteName = "0" + numberStr;
+  var storageRef = firebase.storage().ref("Scripture Videos");
+  var blogStorageRef = storageRef.child(fileCompleteName);
+  var uploadTask = blogStorageRef.put(picture);
+  uploadTask.on("state_changed",
+  function progress(snapshot) {
+  var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  $("#upload-progress").html(Math.round(percentage) + "%");
+  $("#upload-progress").attr("style", "width: " + percentage + "%");
+  uploadTask.snapshot.ref.getDownloadURL().then(function (downloadUrl) {
+  var time = new Date();
+  var dateStr = new Date().getTime();
+  var option = {
+  weekday: "long",
+  month: "long",
+  day: "2-digit",
+  year: "numeric",
+  };
+  var blogData = {
+  "description": desc,
+  "fileSRC": downloadUrl,
+  "title": title,
+  "summary": summary,
+  "typeSRC": "Video",
+  "time": time.toLocaleString('en-US', {
+  hours: 'numeric',
+  minutes: 'numeric',
+  seconds: 'numeric',
+  hours12: true
+  }),
+  "date": time.toLocaleDateString('en-US', option),
+  "count": 100000000000000 - dateStr,
+  };
+  axios({
+  method: "post",
+  url: "/api/v1/scriptures",
+  data: blogData,
+  headers: {
+  "Content-Type": "application/json"
+  }
+  }).then(() => {
+  $("#result").attr("class", "alert alert-success");
+  $("#result").html("Video has been uploaded successfully...!");
+  $("#main-form")[0].reset();
+  $("#selected-video").fadeOut();
+  $("#upload-progress").html("Completed...!");
+  window.location.assign("/me");
+  }).catch((err) => {
+  $("#result").attr("class", "alert alert-danger");
+  $("#result").html("An error occuried in the upload of your post...!");
+  })
+  });
+  });
+  },
+  );
+  });
+script(type='text/javascript' src='https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js')
+script(type='text/javascript' src='https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js')
+script(type='text/javascript' src='https://www.gstatic.com/firebasejs/7.18.0/firebase-firestore.js')
+script(type='text/javascript' src='https://www.gstatic.com/firebasejs/7.18.0/firebase-database.js')
+script(type='text/javascript' src='https://www.gstatic.com/firebasejs/7.18.0/firebase-storage.js')
+script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js' crossorigin='anonymous')

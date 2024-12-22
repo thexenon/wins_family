@@ -6,22 +6,18 @@ import {
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
-  FlatList,
   Alert,
-  TouchableOpacity,
   RefreshControl,
   Image,
 } from "react-native";
 import axios from "axios";
-import { Link, Stack, useRouter } from "expo-router";
-import { useGlobalSearchParams } from "expo-router/build/hooks";
-import { useCallback, useState, useEffect } from "react";
+import { Link, useRouter, Stack } from "expo-router";
+import { useState, useEffect } from "react";
 
-import { CustomButton, ScreenHeaderBtn } from "../../components";
-import { COLORS, icons, SIZES } from "../../constants";
+import { CustomButton, ErrorView } from "../../components";
+import { COLORS, SIZES } from "../../constants";
 import styles from "../../styles/globalStyles";
 
-// const link = "http://127.0.0.1:3000";
 const link = "https://wins-family.onrender.com";
 
 const Profile = () => {
@@ -62,57 +58,54 @@ const Profile = () => {
   };
 
   const [refreshing, setRefreshing] = useState(false);
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    refetch();
-    setRefreshing(false);
-  }, []);
 
   return (
     <SafeAreaView style={styles.safeSpace}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={refetch} />
-        }>
-        {isLoading ? (
-          <ActivityIndicator size="large" color={COLORS.primary} />
-        ) : error ? (
-          <Text>Something Went Wrong!!!</Text>
-        ) : data.length === 0 || data == null ? (
-          <Text>No Data!!!</Text>
-        ) : (
-          <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
-            <View style={styles.homecardsContainer}>
-              {isLoading ? (
-                <ActivityIndicator size="large" color={COLORS.primary} />
-              ) : error ? (
-                <Text>Something Went Wrong!!!</Text>
-              ) : data.length === 0 || data == null ? (
-                <Text>No Data!!!</Text>
-              ) : (
-                <UserProfile currentuser={data} />
-              )}
+      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={refetch} />
+          }>
+          {isLoading ? (
+            <ActivityIndicator size="large" color={COLORS.primary} />
+          ) : error ? (
+            <ErrorView msg={"Something went wrong. Please try again"} />
+          ) : data.length === 0 || data == null ? (
+            <Text>No Data!!!</Text>
+          ) : (
+            <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
+              <View style={styles.homecardsContainer}>
+                {isLoading ? (
+                  <ActivityIndicator size="large" color={COLORS.primary} />
+                ) : error ? (
+                  <ErrorView msg={"Something went wrong. Please try again"} />
+                ) : data.length === 0 || data == null ? (
+                  <Text>No Data!!!</Text>
+                ) : (
+                  <UserProfile currentuser={data} />
+                )}
+              </View>
+              <CustomButton
+                handlePress={async () => {
+                  <Link href={`${link}/me`}></Link>;
+                }}
+                color={COLORS.secondary}
+                text={"Edit Details or Change Password"}
+              />
+              <CustomButton
+                handlePress={async () => {
+                  await AsyncStorage.removeItem("jwt").then(() => {
+                    router.replace("auth");
+                  });
+                }}
+                color={"#ff0000"}
+                text={"LogOut"}
+              />
             </View>
-            <CustomButton
-              handlePress={async () => {
-                <Link href={`${link}/me`}></Link>;
-              }}
-              color={COLORS.secondary}
-              text={"Edit Details or Change Password"}
-            />
-            <CustomButton
-              handlePress={async () => {
-                await AsyncStorage.removeItem("jwt").then(() => {
-                  router.replace("auth");
-                });
-              }}
-              color={"#ff0000"}
-              text={"LogOut"}
-            />
-          </View>
-        )}
-      </ScrollView>
+          )}
+        </ScrollView>
+      </SafeAreaView>
     </SafeAreaView>
   );
 };

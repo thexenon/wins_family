@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   FlatList,
-  RefreshControl,
   ScrollView,
   Alert,
   Image,
@@ -18,10 +17,8 @@ import {
 } from "react-native";
 import { COLORS, SIZES, icons } from "../../constants";
 import styles from "../../styles/globalStyles";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { isUserLoggedIn } from "../../utils/userLogger";
+import { ErrorView } from "../../components";
 
-// const link = "http://127.0.0.1:3000";
 const link = "https://wins-family.onrender.com";
 
 const Home = () => {
@@ -115,9 +112,9 @@ const Home = () => {
               {isLoading ? (
                 <ActivityIndicator size="large" color={COLORS.primary} />
               ) : error ? (
-                <Text>Something Went Wrong!!!</Text>
+                <ErrorView msg={"Something went wrong. Please try again"} />
               ) : data.length === 0 || data == null ? (
-                <Text>No Data!!!</Text>
+                <ErrorView msg={"No Data!!!"} />
               ) : (
                 <FlatList
                   data={filteredData}

@@ -10,7 +10,7 @@ const Splash = () => {
   useEffect(() => {
     setTimeout(() => {
       isUserLoggedIn();
-    }, 5000);
+    }, 10000);
   });
 
   const isUserLoggedIn = async () => {
@@ -35,7 +35,6 @@ const Splash = () => {
             padding: SIZES.medium,
             alignContent: "center",
             alignItems: "center",
-            alignSelf: "center",
             textAlign: "center",
           }}>
           <Text style={styles.welcome}>Welcome to</Text>

@@ -16,7 +16,7 @@ import { Stack, useRouter } from "expo-router";
 import { useGlobalSearchParams } from "expo-router/build/hooks";
 import { useCallback, useState, useEffect } from "react";
 
-import { ScreenHeaderBtn } from "../../components";
+import { ScreenHeaderBtn, ErrorView } from "../../components";
 import { COLORS, icons, SIZES } from "../../constants";
 import styles from "../../styles/globalStyles";
 import { submitComment } from "../../utils/user_api";
@@ -33,6 +33,8 @@ const ScriptureDetails = () => {
   //   });
 
   const [data, setData] = useState([]);
+  const [status, setStatus] = useState("");
+  const [isSubmitting, setSubmitting] = useState(false);
   const [commentText, setCommentText] = useState({ comment: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -51,7 +53,7 @@ const ScriptureDetails = () => {
       setStatus(response.data.status);
     } catch (error) {
       setError(error);
-      alert("Something went wrong. Try again");
+      Alert.alert("Something went wrong.", error.message);
     } finally {
       setIsLoading(false);
     }
@@ -113,13 +115,17 @@ const ScriptureDetails = () => {
     }
 
     setSubmitting(true);
+    if (isSubmitting) {
+      return <ActivityIndicator size="large" color={COLORS.primary} />;
+    }
 
     try {
-      submitComment({ comment: commentText.comment }, params.id)
-        .then(async (result) => {
-          if (result.status == "200") {
-            Alert.alert("Success", `Comment Submitted`);
-            router.replace("/home");
+      await submitComment({ comment: commentText.comment }, params.id)
+        .then((result) => {
+          console.log(result);
+
+          if (result.status == "201") {
+            Alert.alert("Success", "Comment Submitted");
           } else if (result.status == "fail") {
             Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
           } else {
@@ -171,9 +177,9 @@ const ScriptureDetails = () => {
           {isLoading ? (
             <ActivityIndicator size="large" color={COLORS.primary} />
           ) : error ? (
-            <Text>Something Went Wrong!!!</Text>
+            <ErrorView msg={"Something went wrong. Please try again"} />
           ) : data.length === 0 || data == null ? (
-            <Text>No Data!!!</Text>
+            <ErrorView msg={"No Data!!!"} />
           ) : (
             <View style={{ padding: SIZES.medium, paddingBottom: 20 }}>
               {displayTabContent()}
@@ -191,7 +197,7 @@ const ScriptureDetails = () => {
                     </View>
                     <TouchableOpacity
                       style={styles.commentBtnUpload}
-                      onPress={submitMyComment()}>
+                      onPress={submitMyComment}>
                       <Image
                         source={icons.upload}
                         resizeMode="contain"

@@ -21,6 +21,6 @@ router.post(
   viewsController.updateUserData,
 );
 
-// router.get('/post-video', viewsController.postVideoForm);
+router.get('/post-video', viewsController.postVideoForm);
 
 module.exports = router;

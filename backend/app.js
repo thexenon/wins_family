@@ -22,12 +22,33 @@ const app = express();
 // Middlewares
 // 1) GLOBAL MIDDLEWARES
 // Allow Access
+const crypto = require('crypto');
+
+// Function to generate a random nonce
+function generateNonce() {
+  return crypto.randomBytes(16).toString('base64'); // Generates a random string
+}
+
+const nonce = generateNonce(); // Generate a new nonce for every request
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept',
   );
+  next();
+});
+
+// Set CSP header
+app.use((req, res, next) => {
+  console.log('Generated nonce:', nonce);
+  res.setHeader(
+    'Content-Security-Policy',
+    `script-src 'self' https://code.jquery.com/jquery-3.2.1.min.js https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js https://www.gstatic.com/firebasejs/7.18.0/firebase-firestore.js https://www.gstatic.com/firebasejs/7.18.0/firebase-database.js https://www.gstatic.com/firebasejs/7.18.0/firebase-storage.js 'nonce-${nonce}'`,
+  );
+
+  // Make the nonce available in the response for use in the HTML
+  res.locals.nonce = nonce; // Store the nonce in response locals
   next();
 });
 
@@ -91,12 +112,13 @@ app.use('/', viewRouter);
 app.use('/api/v1/comments', commentRouter);
 app.use('/api/v1/scriptures', scriptureRouter);
 app.use('/api/v1/users', userRouter);
-app.get('/post-video', (req, res) => {
+
+app.get('/post-image', (req, res) => {
+  res.locals.nonce = nonce;
+  // res.status(200).render('post-image.html');
   res.sendFile(path.join(__dirname, 'public/post-video.html'));
 });
-app.get('/post-image', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/post-image.html'));
-});
+
 app.all('*', (req, res, next) => {
   next(new AppError(`Error: ${req.originalUrl} is not on this server`, 404));
 });

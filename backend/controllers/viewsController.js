@@ -45,11 +45,15 @@ exports.getLoginForm = (req, res) => {
 };
 
 exports.postImageForm = (req, res) => {
-  res.status(200).render('post-image');
+  res.status(200).render('post-image', {
+    resnonce: res.locals.nonce,
+  });
 };
 
 exports.postVideoForm = (req, res) => {
-  res.status(200).render('post-video');
+  res.status(200).render('post-video', {
+    resnonce: res.locals.nonce,
+  });
 };
 
 exports.getAccount = (req, res) => {
