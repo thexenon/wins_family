@@ -5,8 +5,8 @@ import { WebView } from "react-native-webview";
 import styles from "../../styles/globalStyles";
 
 const API_KEY = "AIzaSyAcs0HOLMdImG5WQFBgnS8TqM7mgsQvnn0";
-const CHANNEL_ID = "UCxq_M1XE1eqKcGZTDnguqCw";
-// const CHANNEL_ID = "UCVEpDZoPL76eYMhfsLOwEbQ";
+// const CHANNEL_ID = "UCxq_M1XE1eqKcGZTDnguqCw";
+const CHANNEL_ID = "UCVEpDZoPL76eYMhfsLOwEbQ";
 const YOUTUBE_API_URL = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=20&type=video&key=${API_KEY}`;
 
 const Videos = () => {
