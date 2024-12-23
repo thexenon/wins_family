@@ -27,6 +27,8 @@ if (userDataForm)
     document.querySelector('.btn--save-userdata').textContent = 'Updating...';
     const form = new FormData();
     form.append('name', document.getElementById('name').value);
+    form.append('phone', document.getElementById('phoneUser').value);
+    form.append('address', document.getElementById('addressUser').value);
     form.append('description', document.getElementById('description').value);
     form.append('email', document.getElementById('email').value);
     form.append('photo', document.getElementById('photo').files[0]);

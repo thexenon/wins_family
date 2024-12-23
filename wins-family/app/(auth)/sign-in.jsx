@@ -1,17 +1,9 @@
 import { useState } from "react";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  View,
-  Text,
-  ScrollView,
-  Dimensions,
-  Alert,
-  Image,
-  TextInput,
-} from "react-native";
+import { View, Text, ScrollView, Alert, Image, TextInput } from "react-native";
 import { user_login } from "../../utils/user_api";
-import { COLORS, icons, images, SIZES, FONT } from "../../constants";
+import { COLORS, images } from "../../constants";
 import { CustomButton } from "../../components";
 import styles from "../../styles/globalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -45,7 +37,7 @@ const SignIn = () => {
           }
         })
         .catch((err) => {
-          console.error(err);
+          Alert.alert("Error", err);
         });
     } catch (error) {
       Alert.alert("Error", error.message);
@@ -103,13 +95,13 @@ const SignIn = () => {
             </View>
           </View>
 
-          <View>
+          {/* <View>
             <Link
               style={(styles.welcomemsg, styles.welcome)}
               href="/forgot-password">
               <Text>Forgot password</Text>
             </Link>
-          </View>
+          </View> */}
 
           <CustomButton
             color={"#213555"}

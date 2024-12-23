@@ -79,10 +79,10 @@ scriptureSchema.pre('save', function (next) {
 // });
 
 scriptureSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'reactions',
-    select: 'name',
-  });
+  // this.populate({
+  //   path: 'reactions',
+  //   select: 'name',
+  // });
 
   scriptureSchema.virtual('reactionsTotal').get(function () {
     return this.reactions.length;

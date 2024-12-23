@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 export const isUserLoggedIn = async () => {
   const router = useRouter();
   const token = await AsyncStorage.getItem("jwt");
-  console.log(token);
+  // console.log(token);
 
   if (!token) {
     router.replace("/auth");

@@ -21,16 +21,12 @@ import { COLORS, icons, SIZES } from "../../constants";
 import styles from "../../styles/globalStyles";
 import { submitComment, submitReactionLike } from "../../utils/user_api";
 
-const tabs = ["Scripture", "Comments", "Likes"];
-// const link = "http://127.0.0.1:3000";
+const tabs = ["Scripture", "Comments"];
 const link = "https://wins-family.onrender.com";
 
 const ScriptureDetails = () => {
   const router = useRouter();
   const params = useGlobalSearchParams();
-  //   const { data, isLoading, error, refetch } = useFetch("job-details", {
-  //     job_id: params.id,
-  //   });
 
   const [data, setData] = useState([]);
   const [status, setStatus] = useState("");
@@ -70,11 +66,6 @@ const ScriptureDetails = () => {
 
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    refetch();
-    setRefreshing(false);
-  }, []);
 
   const displayTabContent = () => {
     switch (activeTab) {
@@ -131,7 +122,7 @@ const ScriptureDetails = () => {
           }
         })
         .catch((err) => {
-          console.error(err);
+          Alert.alert("Error", err);
         });
     } catch (error) {
       Alert.alert("Error", error.message);
@@ -142,11 +133,14 @@ const ScriptureDetails = () => {
 
   const submitMyReactionLike = async () => {
     const myUID = await AsyncStorage.getItem("userUID");
+    const localReactions = data?.reactions;
+    localReactions.push(myUID);
 
     try {
-      await submitReactionLike({ reaction: myUID }, params.id)
+      await submitReactionLike({ reactions: localReactions }, params.id)
         .then((result) => {
-          console.log(result);
+          // console.log(result);
+          // console.log(myUID);
 
           if (result.status == "200") {
             Alert.alert("Success", "Reaction Submitted");
@@ -228,7 +222,7 @@ const ScriptureDetails = () => {
                         style={styles.commentBtnImage}
                       />
                     </TouchableOpacity>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       style={styles.commentBtnLike}
                       onPress={submitMyReactionLike}>
                       <Image
@@ -236,7 +230,7 @@ const ScriptureDetails = () => {
                         resizeMode="contain"
                         style={styles.commentBtnImage}
                       />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
                 </View>
               </View>

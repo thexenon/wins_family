@@ -50,16 +50,13 @@ export const submitComment = async (reqData, scriptureID) => {
 
 export const submitReactionLike = async (reqData, scriptureID) => {
   try {
-    const result = await ApiManager(
-      `/api/v1/scriptures/${scriptureID}/reactions`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: reqData,
-      }
-    );
+    const result = await ApiManager(`/api/v1/scriptures/${scriptureID}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: reqData,
+    });
     return result;
   } catch (error) {
     return error.response.data;

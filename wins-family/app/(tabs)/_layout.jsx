@@ -1,10 +1,8 @@
 import { StatusBar } from "expo-status-bar";
-import { Redirect, Tabs } from "expo-router";
-import { Image, Text, View } from "react-native";
+import { Tabs } from "expo-router";
+import { Image, View } from "react-native";
 
-import { icons, SIZES } from "../../constants";
-import { Loader } from "../../components";
-// import { useGlobalContext } from "../../context/GlobalProvider";
+import { icons } from "../../constants";
 
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
@@ -21,26 +19,11 @@ const TabIcon = ({ icon, color, name, focused }) => {
         tintColor={color}
         style={{ height: 30 }}
       />
-      {/* <Text
-        style={{
-          color: color,
-          fontSize: SIZES.small,
-          alignContent: "center",
-          alignItems: "center",
-          alignSelf: "center",
-          textAlign: "center",
-        }}>
-        {name}
-      </Text> */}
     </View>
   );
 };
 
 const TabLayout = () => {
-  // const { loading, isLogged } = useGlobalContext();
-
-  // if (!loading && !isLogged) return <Redirect href="/sign-in" />;
-
   return (
     <>
       <Tabs
@@ -87,6 +70,21 @@ const TabLayout = () => {
           }}
         />
         <Tabs.Screen
+          name="videos"
+          options={{
+            title: "Videos",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.bookmark}
+                color={color}
+                name="Videos"
+                focused={focused}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
           name="profile"
           options={{
             title: "Profile",
@@ -103,7 +101,6 @@ const TabLayout = () => {
         />
       </Tabs>
 
-      {/* <Loader isLoading={loading} /> */}
       <StatusBar backgroundColor="#161622" style="light" />
     </>
   );

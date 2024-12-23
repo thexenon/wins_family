@@ -1,25 +1,14 @@
 import { useState } from "react";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  View,
-  Text,
-  ScrollView,
-  Dimensions,
-  Alert,
-  Image,
-  TextInput,
-} from "react-native";
+import { View, Text, ScrollView, Alert, Image, TextInput } from "react-native";
 
-import { COLORS, icons, images, SIZES, FONT } from "../../constants";
+import { COLORS, images } from "../../constants";
 import styles from "../../styles/globalStyles";
-// import { createUser } from "../../lib/appwrite";
-import { CustomButton, FormField } from "../../components";
+import { CustomButton } from "../../components";
 import { user_signup } from "../../utils/user_api";
 
 const SignUp = () => {
-  // const { setUser, setIsLogged } = useGlobalContext();
-
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     email: "",
@@ -59,7 +48,7 @@ const SignUp = () => {
           }
         })
         .catch((err) => {
-          console.error(err);
+          Alert.alert("Error", err);
         });
     } catch (error) {
       Alert.alert("Error", error.message);
@@ -71,11 +60,7 @@ const SignUp = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.gray }}>
       <ScrollView>
-        <View
-        // style={{
-        //   minHeight: Dimensions.get("window").height - 100,
-        // }}
-        >
+        <View>
           <Image
             style={{
               height: 200,

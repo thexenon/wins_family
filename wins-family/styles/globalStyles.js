@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
   commentBtnUpload: {
     width: 50,
     height: "100%",
-    // backgroundColor: COLORS.tertiary
+    backgroundColor: COLORS.tertiary,
     borderRadius: SIZES.medium,
     justifyContent: "center",
     alignItems: "center",
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   },
   scriptureComment: {
     fontSize: SIZES.small + 2,
-    fontFamily: "DMRegular",
+    fontFamily: "DMBold",
     color: "#fff574",
     marginTop: 3,
     textTransform: "capitalize",
@@ -385,6 +385,16 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
     fontFamily: FONT.bold,
     paddingVertical: 20,
+  },
+  youtubeText: {
+    alignSelf: "center",
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: SIZES.large,
+    color: COLORS.black,
+    fontFamily: FONT.bold,
+    marginBottom: 10,
+    marginTop: 25,
   },
 });
 

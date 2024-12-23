@@ -40,6 +40,12 @@ block content
             .form__group.ma-bt-md
               label.form__label(for='email') Email address
               input#email.form__input(type='email', value=`${user.email}`, required, name='email')
+            .form__group.ma-bt-md
+              label.form__label(for='phone') Phone Number
+              input#phoneUser.form__input(type='tel', value=`${user.phone}`, required, name='phone')
+            .form__group
+              label.form__label(for='address') Address
+              textarea#addressUser.form__input(type='text', cols=30, rows=10 required, name='address')=`${user.address}`
             .form__group
               label.form__label(for='description') Description
               textarea#description.form__input(type='text', cols=30, rows=10 required, name='description')=`${user.description}`

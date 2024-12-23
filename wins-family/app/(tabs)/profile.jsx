@@ -11,7 +11,7 @@ import {
   Image,
 } from "react-native";
 import axios from "axios";
-import { Link, useRouter, Stack } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useState, useEffect } from "react";
 
 import { CustomButton, ErrorView } from "../../components";
@@ -121,6 +121,14 @@ const UserProfile = ({ currentuser }) => {
           source={{ uri: `${link}/img/users/${currentuser?.photo}` }}
           resizeMethod="cover"
         />
+      </View>
+      <View>
+        <Text style={styles.userName}></Text>
+        <Text style={styles.userBody}></Text>
+      </View>
+      <View>
+        <Text style={styles.userName}>Role</Text>
+        <Text style={styles.userBody}>{currentuser?.role}</Text>
       </View>
       <View>
         <Text style={styles.userName}>Name</Text>

@@ -15,7 +15,7 @@ import {
   TextInput,
   SafeAreaView,
 } from "react-native";
-import { COLORS, SIZES, icons } from "../../constants";
+import { COLORS, SIZES } from "../../constants";
 import styles from "../../styles/globalStyles";
 import { ErrorView } from "../../components";
 
@@ -161,9 +161,9 @@ const ScriptureCard = React.memo(({ scripture, handleNavigate }) => {
         <Text style={styles.scriptureComment}>
           Comments: {scripture.comments.length}
         </Text>
-        <Text style={styles.scriptureLike}>
+        {/* <Text style={styles.scriptureLike}>
           Likes: {scripture.reactionsTotal}
-        </Text>
+        </Text> */}
       </View>
     </TouchableOpacity>
   );

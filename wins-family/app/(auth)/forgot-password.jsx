@@ -1,51 +1,35 @@
 import { useState } from "react";
-import { Link, router, Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  View,
-  Text,
-  ScrollView,
-  Dimensions,
-  Alert,
-  Image,
-  TextInput,
-} from "react-native";
+import { View, Text, ScrollView, Alert, Image, TextInput } from "react-native";
 
-import { COLORS, icons, images, SIZES, FONT } from "../../constants";
+import { COLORS, icons, images } from "../../constants";
 import { CustomButton, ScreenHeaderBtn } from "../../components";
 import styles from "../../styles/globalStyles";
-// import { getCurrentUser, signIn } from "../../lib/appwrite";
-// import { useGlobalContext } from "../../context/GlobalProvider";
 
 const SignIn = () => {
-  // const { setUser, setIsLogged } = useGlobalContext();
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
-  const submit = async () => {
-    if (form.email === "" || form.password === "") {
-      Alert.alert("Error", "Please fill in all fields");
-    }
+  // const submit = async () => {
+  //   if (form.email === "" || form.password === "") {
+  //     Alert.alert("Error", "Please fill in all fields");
+  //   }
 
-    setSubmitting(true);
+  //   setSubmitting(true);
 
-    try {
-      // await signIn(form.email, form.password);
-      // const result = await getCurrentUser();
-      // setUser(result);
-      // setIsLogged(true);
-
-      Alert.alert("Success", "User signed in successfully");
-      router.replace("/home");
-    } catch (error) {
-      Alert.alert("Error", error.message);
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  //   try {
+  //     Alert.alert("Success", "User signed in successfully");
+  //     router.replace("/home");
+  //   } catch (error) {
+  //     Alert.alert("Error", error.message);
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.gray }}>
@@ -92,12 +76,12 @@ const SignIn = () => {
             </View>
           </View>
 
-          <CustomButton
+          {/* <CustomButton
             color={"#213555"}
             text="Forget Password"
             handlePress={submit}
             isLoading={isSubmitting}
-          />
+          /> */}
         </View>
       </ScrollView>
     </SafeAreaView>

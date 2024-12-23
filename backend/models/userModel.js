@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema(
     slug: String,
     role: {
       type: String,
-      default: 'user',
+      default: 'member',
       enum: {
         values: ['admin', 'user', 'head', 'member', 'streamer'],
         message: 'Role is either ||admin|head|streamer|member|user||',
@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema(
     },
     title: {
       type: String,
-      default: 'Guest',
+      default: 'Member',
       enum: {
         values: [
           'Head-Pastor',
