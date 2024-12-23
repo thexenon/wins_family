@@ -1,7 +1,10 @@
 {
   "expo": {
     "scheme": "wins",
-    "plugins": ["expo-router", "expo-font"],
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
     "name": "Wins Family",
     "slug": "wins-family-chapel",
     "icon": "./assets/images/logo.png",
@@ -15,6 +18,17 @@
     },
     "web": {
       "favicon": "./assets/images/logo.png"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "37fae13f-c1c5-4709-839c-95ea83f06fd3"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.thexenon.winsfamily"
     }
   }
 }

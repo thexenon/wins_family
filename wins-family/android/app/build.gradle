@@ -83,14 +83,14 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 android {
     ndkVersion rootProject.ext.ndkVersion
 
-    buildToolsVersion rootProject.ext.buildToolsVersion
-    compileSdk rootProject.ext.compileSdkVersion
+    buildToolsVersion '34.0.0'
+    compileSdk 34
 
     namespace 'com.thexenon.winsfamily'
     defaultConfig {
         applicationId 'com.thexenon.winsfamily'
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 24
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0.0"
     }
