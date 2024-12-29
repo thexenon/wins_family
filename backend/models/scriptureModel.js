@@ -15,10 +15,11 @@ const scriptureSchema = new mongoose.Schema(
     slug: String,
     typeSRC: {
       type: String,
+      default: 'Picture',
       required: [true, 'Type of file must be set'],
       enum: {
-        values: ['Picture', 'Video'],
-        message: 'Type of file is either ||Picture|Video||',
+        values: ['Picture'],
+        message: 'Type of file is either ||Picture|',
       },
     },
     summary: {

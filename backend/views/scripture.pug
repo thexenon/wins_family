@@ -33,7 +33,6 @@ block content
           - const date = scripture.createdAt.toLocaleString('en-us', {day: 'numeric', month: 'long', year: 'numeric'})
           +overviewBox('Posted on:', date, 'calendar')
           +overviewBox('Comments', `${scripture.comments.length}`, 'user')
-          +overviewBox('Likes', `${scripture.reactionsTotal}`, 'star')
 
     .description-box
       h2.heading-secondary.ma-bt-lg= `About ${scripture.title}`
