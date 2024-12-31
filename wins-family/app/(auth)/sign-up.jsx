@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Alert, Image, TextInput } from "react-native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { COLORS, images } from "../../constants";
 import styles from "../../styles/globalStyles";
 import { CustomButton } from "../../components";
@@ -36,9 +36,7 @@ const SignUp = () => {
         passwordConfirm: form.confirmpassword,
       })
         .then(async (result) => {
-          console.log(result);
-
-          if (result.status == "201") {
+          if (result.status == 201) {
             await AsyncStorage.setItem("jwt", result?.data.token);
             await AsyncStorage.setItem("userUID", result?.data.data.user.id);
             Alert.alert("Welcome", `${result?.data.data.user.name}`);
@@ -52,7 +50,7 @@ const SignUp = () => {
           }
         })
         .catch((err) => {
-          Alert.alert("Error", err);
+          Alert.alert("Error", err.message);
         });
     } catch (error) {
       Alert.alert("Error", error.message);
@@ -119,7 +117,7 @@ const SignUp = () => {
                   style={styles.textInput}
                   value={form.address}
                   onChangeText={(e) => setForm({ ...form, address: e })}
-                  placeholder="Address"
+                  placeholder="House Address"
                   placeholderTextColor={COLORS.black}
                   multiline={true}
                 />
