@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
-const slugify = require('slugify');
+// const slugify = require('slugify');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
 
@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema(
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
-    slug: String,
+    // slug: String,
     role: {
       type: String,
       default: 'member',
@@ -103,11 +103,11 @@ userSchema.pre(/^find/, function (next) {
 });
 
 // Document middleware before save(), create() but not insertMany()
-userSchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
-  console.log(this.slug);
-  next();
-});
+// userSchema.pre('save', function (next) {
+//   this.slug = slugify(this.name, { lower: true });
+//   console.log(this.slug);
+//   next();
+// });
 
 userSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next();

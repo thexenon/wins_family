@@ -36,7 +36,9 @@ const SignUp = () => {
         passwordConfirm: form.confirmpassword,
       })
         .then(async (result) => {
-          if (result.status == "200") {
+          console.log(result);
+
+          if (result.status == "201") {
             await AsyncStorage.setItem("jwt", result?.data.token);
             await AsyncStorage.setItem("userUID", result?.data.data.user.id);
             Alert.alert("Welcome", `${result?.data.data.user.name}`);
@@ -44,6 +46,8 @@ const SignUp = () => {
           } else if (result.status == "fail") {
             Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
           } else {
+            console.log(result.status);
+
             Alert.alert("Somethin went wrong. Please try again later");
           }
         })
